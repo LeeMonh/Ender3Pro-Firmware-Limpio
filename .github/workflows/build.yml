@@ -1,8 +1,6 @@
 name: Build Marlin Firmware
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -23,10 +21,13 @@ jobs:
           pip install platformio
 
       - name: Build firmware
-        run: pio run -e STM32F103RET6_creality
+        working-directory: ./Marlin
+        run: |
+          platformio run -e STM32F103RET6_creality
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: Firmware-STM32F103RET6_creality
-          path: .pio/build/STM32F103RET6_creality/firmware.bin
+          path: Marlin/.pio/build/STM32F103RET6_creality/firmware.bin
+
